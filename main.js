@@ -169,7 +169,7 @@ function start() {
                 var dir = data[i];
                 data[i].movie_amount = data[i].movie_amount + 1;
                 data[i].totalprofit = +data[i].totalprofit + +d.gross - (+d.budget);
-                data[i].totalprofit = +data[i].total_likes + +d.director_facebook_likes;
+                data[i].total_likes = +data[i].total_likes + +d.director_facebook_likes;
                 data[i].total_cast_likes = +data[i].total_cast_likes + +d.cast_total_facebook_likes;
                 data[i].total_movie_likes = +data[i].total_movie_likes + +d.movie_facebook_likes;
                 data[i].avg_imdb_score = +data[i].avg_imdb_score + +d.imdb_score;
@@ -246,6 +246,23 @@ function start() {
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
+        
+        var max_profit = 0;
+        data.forEach(function(d) { 
+        if (max_profit < (d.totalprofit/d.movie_amount)) {
+            max_profit = (d.totalprofit/d.movie_amount)
+        }});
+        
+        console.log(max_profit);
+        
+        var min_profit = 0;
+        data.forEach(function(d) { 
+        if (min_profit > (d.totalprofit/d.movie_amount)) {
+            min_profit = (d.totalprofit/d.movie_amount);
+        }});
+        
+        console.log(min_profit);
+        
         var xcalc = [100, -1];
         
         function updatex(x) {
@@ -268,10 +285,28 @@ function start() {
                 ycalc[0] = 25;
                 ycalc[1] = 0;
             }
-            console.log(ycalc);
             return ycalc[0];
         }
         
+        data.sort(function(x, y){
+            return d3.descending(x.totalprofit/ x.movie_amount, y.totalprofit/ y.movie_amount);
+            });
+        
+        function updateColor(value) {
+            var col = 0;
+            console.log("WHYYYY");
+            if (value >= 0) {
+                col = 255 * (1- (value/ max_profit)) - 40;
+                
+                return d3.rgb(Math.abs(col), 255, Math.abs(col));
+            } else {
+                col = 255* (1- (value / min_profit)) - 40;
+                
+                console.log(col);
+                return d3.rgb(255, Math.abs(col), Math.abs(col));
+            }
+            
+        }
         
         
         bars.append('g')
@@ -280,6 +315,9 @@ function start() {
             .enter()
             .append('circle')
             .attr("stroke", "black")
+            .attr("fill", function(d) {
+            return updateColor(d.totalprofit/d.movie_amount);
+            })
             .attr('class', 'bar')
 //            .attr('x', 30)
             .attr('cx', function() {
@@ -305,6 +343,7 @@ function start() {
                 console.log(d.name);
                 });
         
+    
         // Create Event Handlers for mouse
       function handleMouseOver(d, i) {  // Add interactivity
 
@@ -333,7 +372,9 @@ function start() {
       function handleMouseOut(d, i) {
             // Use D3 to select element, change color back to normal
             d3.select(this).attr({
-              fill: "black",
+              fill: function(d) {
+            return updateColor(d.totalprofit);
+            },
               r: 5
             });
             // Select text by id and then remove
