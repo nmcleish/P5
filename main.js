@@ -271,13 +271,9 @@ function start() {
             console.log(ycalc);
             return ycalc[0];
         }
-        
-        
-        var myTool = d3.select("body")
-          .append("div")
-          .attr("class", "mytooltip")
-          .style("opacity", "0")
-          .style("display", "none");
+        var div = d3.select("body").append("div")   
+            .attr("class", "tooltip")               
+            .style("opacity", 0);
 
         bars.append('g')
             .selectAll('.bar')
@@ -313,48 +309,32 @@ function start() {
         // Create Event Handlers for mouse
       function handleMouseOver(d, i) {  // Add interactivity
 
+        div.transition()        
+        .duration(200)      
+        .style("opacity", .9);      
+        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.total_likes + "</br>" + "Avg Profit: "+ d.totalprofit)  
+        .style("left", (d3.event.pageX+ 20) + "px")     
+        .style("top", (d3.event.pageY - 70) + "px"); 
+
             // Use D3 to select element, change color and size
             d3.select(this)
             .attr({
               fill: "orange",
               r: 10
             })
-            myTool
-            .transition()  //Opacity transition when the tooltip appears
-              .duration(500)
-              .style("opacity", "1")                           
-              .style("display", "block");
-
-            // Specify where to put label of text
-            svg.append("text").attr({
-               id: "test-" + d.name[0] + i,  // Create an id for text so we can select it later for removing on mouseout
-                x: function() { return 30; },
-                y: function() { return 20; }
-            })
-            .text(function() {
-                d3.select("#Name").text(d.name)
-                d3.select("#Likes").text(d.total_likes)
-                d3.select("#Movies").text(d.movie_amount)
-                d3.select("#Profit").text(d.totalprofit)
-                //return d.name;  // Value of the text
-
-            });
           }
 
       function handleMouseOut(d, i) {
             // Use D3 to select element, change color back to normal
+            div.transition()        
+                .duration(500)      
+                .style("opacity", 0); 
             d3.select(this)
             .attr({
               fill: "black",
               r: 5
             })
-            myTool
-                    .transition()  //Opacity transition when the tooltip disappears
-                .duration(500)
-                .style("opacity", "0")            
-                .style("display", "none");
-            // Select text by id and then remove
-            d3.select("#test-" + d.name[0] + i).remove();  // Remove text location
+
           }
         
         
