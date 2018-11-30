@@ -273,7 +273,12 @@ function start() {
         }
         
         
-        
+        var myTool = d3.select("body")
+          .append("div")
+          .attr("class", "mytooltip")
+          .style("opacity", "0")
+          .style("display", "none");
+
         bars.append('g')
             .selectAll('.bar')
             .data(data)
@@ -309,10 +314,16 @@ function start() {
       function handleMouseOver(d, i) {  // Add interactivity
 
             // Use D3 to select element, change color and size
-            d3.select(this).attr({
+            d3.select(this)
+            .attr({
               fill: "orange",
               r: 10
-            });
+            })
+            myTool
+            .transition()  //Opacity transition when the tooltip appears
+              .duration(500)
+              .style("opacity", "1")                           
+              .style("display", "block");
 
             // Specify where to put label of text
             svg.append("text").attr({
@@ -332,77 +343,21 @@ function start() {
 
       function handleMouseOut(d, i) {
             // Use D3 to select element, change color back to normal
-            d3.select(this).attr({
+            d3.select(this)
+            .attr({
               fill: "black",
               r: 5
-            });
+            })
+            myTool
+                    .transition()  //Opacity transition when the tooltip disappears
+                .duration(500)
+                .style("opacity", "0")            
+                .style("display", "none");
             // Select text by id and then remove
             d3.select("#test-" + d.name[0] + i).remove();  // Remove text location
           }
         
         
-//            .attr('height', function(d) {
-//                // Remember how we set the yScale to be an ordinal scale
-//                // with bands from 0 to height? And then we set the domain 
-//                // to contain all the letters in the alphabet? 
-//                return yScale.rangeBand();
-//            });
-//    });
-
-    // Add a button below the graph. Clicking on this button will
-    // run a filter on the data and use an animation in the process.
-    //
-    // Our HTML will now look like this:
-    // <div id="graph">
-    //  <svg width="700" height="600">...</svg>
-    //  <p>
-    //    <button>Filter Data</button>
-    //  </p>
-    // </div>
-
-//    d3.select(graph)
-//        .select('p')
-//        .append('br');
-//
-//    var sel = d3.select(graph)
-//        .select('p')
-//        .append('select');
-//
-//    sel.append('option')
-//        .text('Red');
-//
-//    sel.append('option')
-//        .text('Purple');
-//
-//    sel.append('option')
-//        .text('Green');
-//
-//    d3.select(graph)
-//            .select('p')
-//            .append('br');
-//
-//    var cutoff = d3.select(graph)
-//        .append('p')
-//        .text("Cutoff: ")
-//        .append('input')
-//        .attr('class', 'cutoff')
-//        .attr('type','text')
-//        .attr('value','0.8');
-
-//    function getSelectedOption(sel) {
-//                            var opt;
-//                            for ( var i = 0, len = sel.options.length; i < len; i++ ) {
-//                                opt = sel.options[i];
-//                                if ( opt.selected === true ) {
-//                                    break;
-//                                }
-//                            }
-//                            return opt;
-//                        };
-//    var val = cutoff.value;
-//
-//    console.log(cutoff.attr("value"));
-//    console.log(document.getElementsByClassName("cutoff").value);
 
 }}
 
