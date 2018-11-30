@@ -1,13 +1,6 @@
 .bar:hover {
   fill: brown;
 }
-.Loss {
-  fill: blue;
-
-}
-.Gain {
-  fill:goldenrod;
-}
 .axis {
   font: 10px sans-serif;
 }

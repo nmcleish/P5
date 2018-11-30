@@ -57,99 +57,7 @@ function start() {
     // That means the labels are on the left, and tick marks on the right.
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
     var xAxis = d3.svg.axis().scale(xScale).orient('bottom');
-
-
-    // Add a button below the graph. Clicking on this button will
-    // run a filter on the data and use an animation in the process.
-    // 
-    // Our HTML will now look like this:
-    // <div id="graph">
-    //  <svg width="700" height="600">...</svg>
-    //  <p>
-    //    <button>Filter Data</button>
-    //  </p>
-    // </div>
-//    d3.select(graph)
-//        .append('p')
-//        .append('button')
-//        .text('Filter Data')
-//        .style('margin-bottom', '15px')
-//        .on('click', function() {
-//            bars.selectAll('.bar')
-//                .filter(function(d) {
-//                    return d.frequency >= eval(cutoff.property("value"));
-//                })
-//                .transition()
-//                .duration(function(d) {
-//                    return Math.random() * 1000;
-//                })
-//                .delay(function(d) {
-//                    return d.frequency * 8000
-//                })
-//                .style('fill', sel.property("value"));
-//
-//            bars.selectAll('.bar')
-//                .filter(function(d) {
-//                   return d.frequency < eval(cutoff.property("value"));
-//                })
-//                .transition()
-//                .duration(function(d) {
-//                   return Math.random() * 1000;
-//                })
-//                .delay(function(d) {
-//                   return d.frequency * 8000
-//                })
-//                .style('fill', 'white');
-//        });
-//
-//    d3.select(graph)
-//        .select('p')
-//        .append('br');
-//
-//    // Add a button below the graph. Clicking on this button will
-//    // reset the filter on the data and use an animation in the process.
-//    d3.select(graph)
-//        .select('p')
-//        .append('button')
-//        .attr('display', 'inline-block')
-//        .style('margin-bottom', '15px')
-//        .text('Reset Filter')
-//        .on('click', function() {
-//            bars.selectAll('.bar')
-//                .filter(function(d) {
-//                    return d.frequency;
-//                })
-//                .transition()
-//                .duration(function(d) {
-//                    return Math.random() * 1000;
-//                })
-//                .delay(function(d) {
-//                    return d.frequency * 8000
-//                })
-//                .style('fill', 'steelblue')
-//                .attr('width', function(d) {
-//                    return xScale(d.frequency);
-//                });
-//        });
-
-    // D3 will grab all the data from "data.csv" and make it available
-    // to us in a callback function. It follows the form:
-    // 
-    // d3.csv('file_name.csv', accumulator, callback)
-    // 
-    // Where 'file_name.csv' - the name of the file to read
-    // accumulator - a method with parameter d that lets you pre-process
-    //               each row in the CSV. This affects the array of
-    //               rows in the function named 'callback'
-    //
-    // callback - a method with parameters error, data. Error contains
-    //            an error message if the data could not be found, or
-    //            was malformed. The 'data' parameter is an array of
-    //            rows returned after being processed by the accumulator.
-    
-    // Get Data
-    
-        
+     
     console.log("hello");
     
     d3.csv('data.csv', drawPlot);
@@ -169,7 +77,7 @@ function start() {
                 var dir = data[i];
                 data[i].movie_amount = data[i].movie_amount + 1;
                 data[i].totalprofit = +data[i].totalprofit + +d.gross - (+d.budget);
-                data[i].totalprofit = +data[i].total_likes + +d.director_facebook_likes;
+                data[i].total_likes = +data[i].total_likes + +d.director_facebook_likes;
                 data[i].total_cast_likes = +data[i].total_cast_likes + +d.cast_total_facebook_likes;
                 data[i].total_movie_likes = +data[i].total_movie_likes + +d.movie_facebook_likes;
                 data[i].avg_imdb_score = +data[i].avg_imdb_score + +d.imdb_score;
@@ -246,6 +154,21 @@ function start() {
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
+
+        var max_profit = 0;
+        data.forEach(function(d) { 
+        if (max_profit < (d.totalprofit/d.movie_amount)) {
+            max_profit = (d.totalprofit/d.movie_amount)
+        }});
+        
+        console.log(max_profit);
+        
+        var min_profit = 0;
+        data.forEach(function(d) { 
+        if (min_profit > (d.totalprofit/d.movie_amount)) {
+            min_profit = (d.totalprofit/d.movie_amount);
+        }});
+        
         var xcalc = [100, -1];
         
         function updatex(x) {
@@ -268,38 +191,49 @@ function start() {
                 ycalc[0] = 25;
                 ycalc[1] = 0;
             }
-            console.log(ycalc);
             return ycalc[0];
+        }
+
+        data.sort(function(x, y){
+            return d3.descending(x.totalprofit/ x.movie_amount, y.totalprofit/ y.movie_amount);
+            });
+        
+        function updateColor(value) {
+            var col = 0;
+            console.log("WHYYYY");
+            if (value >= 0) {
+                col = 255 * (1- (value/ max_profit)) - 40;
+                
+                return d3.rgb(Math.abs(col), 255, Math.abs(col));
+            } else {
+                col = 255* (1- (value / min_profit)) - 40;
+                
+                console.log(col);
+                return d3.rgb(255, Math.abs(col), Math.abs(col));
+            }
+            
         }
         var div = d3.select("body").append("div")   
             .attr("class", "tooltip")               
             .style("opacity", 0);
-
         bars.append('g')
             .selectAll('.bar')
             .data(data)
             .enter()
             .append('circle')
             .attr("stroke", "black")
+            .attr("fill", function(d) {
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
             .attr('class', 'bar')
 //            .attr('x', 30)
             .attr('cx', function() {
                 return updatex(true);
             })
-//            .attr('y', function(d) {
-//                return yScale(d.letter);
-//            })
             .attr('cy', function() {
                 return updatey(false);
             })
             .attr("r", 5)
-//             .attr('width', 15)
-// //            .attr('width', function(d) {
-// //                // xScale will map any number and return a number
-// //                // within the output range we specified earlier.
-// //                return xScale(d.frequency);
-// //            })
-//             .attr('height', 15)
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", function(d,i){
@@ -312,14 +246,16 @@ function start() {
         div.transition()        
         .duration(200)      
         .style("opacity", .9);      
-        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.total_likes + "</br>" + "Avg Profit: "+ d.totalprofit)  
+        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit)  
         .style("left", (d3.event.pageX+ 20) + "px")     
         .style("top", (d3.event.pageY - 70) + "px"); 
 
             // Use D3 to select element, change color and size
             d3.select(this)
             .attr({
-              fill: "orange",
+                fill: function(d) {
+                    return updateColor(d.totalprofit);
+                    },
               r: 10
             })
           }
@@ -329,9 +265,10 @@ function start() {
             div.transition()        
                 .duration(500)      
                 .style("opacity", 0); 
-            d3.select(this)
-            .attr({
-              fill: "black",
+            d3.select(this).attr({
+                fill: function(d) {
+                    return updateColor(d.totalprofit);
+                },
               r: 5
             })
 
