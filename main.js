@@ -16,7 +16,7 @@ function start() {
     // Specify the width and height of our graph
     // as variables so we can use them later.
     // Remember, hardcoding sucks! :)
-    var width = 1000;
+    var width = 800;
     var height = 500;
 
     // Here we tell D3 to select the graph that we defined above.
@@ -49,7 +49,7 @@ function start() {
     // Our bar chart is going to encode the letter frequency as bar width.
     // This means that the length of the x axis depends on the length of the bars.
     // The y axis should contain A-Z in the alphabet (ordinal data).
-    var xScale = d3.scale.linear().range([width, 0]);
+    var xScale = d3.scale.linear().range([width - 10, 0]);
     var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 0.3);
 
 
@@ -321,7 +321,12 @@ function start() {
                 y: function() { return 20; }
             })
             .text(function() {
-              return d.name;  // Value of the text
+                d3.select("#Name").text(d.name)
+                d3.select("#Likes").text(d.total_likes)
+                d3.select("#Movies").text(d.movie_amount)
+                d3.select("#Profit").text(d.totalprofit)
+                //return d.name;  // Value of the text
+
             });
           }
 
@@ -400,3 +405,25 @@ function start() {
 //    console.log(document.getElementsByClassName("cutoff").value);
 
 }}
+
+//tab code
+function changeLikes(evt, likeType) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(likeType).style.display = "block";
+    evt.currentTarget.className += " active";
+}
