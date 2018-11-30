@@ -278,25 +278,27 @@ function start() {
             .selectAll('.bar')
             .data(data)
             .enter()
-            .append('rect')
+            .append('circle')
+            .attr("stroke", "black")
             .attr('class', 'bar')
 //            .attr('x', 30)
-            .attr('x', function() {
+            .attr('cx', function() {
                 return updatex(true);
             })
 //            .attr('y', function(d) {
 //                return yScale(d.letter);
 //            })
-            .attr('y', function() {
+            .attr('cy', function() {
                 return updatey(false);
             })
-            .attr('width', 15)
-//            .attr('width', function(d) {
-//                // xScale will map any number and return a number
-//                // within the output range we specified earlier.
-//                return xScale(d.frequency);
-//            })
-            .attr('height', 15)
+            .attr("r", 5)
+//             .attr('width', 15)
+// //            .attr('width', function(d) {
+// //                // xScale will map any number and return a number
+// //                // within the output range we specified earlier.
+// //                return xScale(d.frequency);
+// //            })
+//             .attr('height', 15)
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", function(d,i){
@@ -327,7 +329,7 @@ function start() {
             // Use D3 to select element, change color back to normal
             d3.select(this).attr({
               fill: "black",
-              r: 10
+              r: 5
             });
             // Select text by id and then remove
             d3.select("#test-" + d.name[0] + i).remove();  // Remove text location
