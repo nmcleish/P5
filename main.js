@@ -148,10 +148,7 @@ function start() {
     //            rows returned after being processed by the accumulator.
     
     // Get Data
-    
         
-    console.log("hello");
-    
     d3.csv('data.csv', drawPlot);
     
     function drawPlot(rawData) {
@@ -211,6 +208,7 @@ function start() {
             return d.total_likes;
         })]);
 
+
         // We set the domain of the yScale. The scale is ordinal, and
         // contains every letter in the alphabet (the letter attribute
         // in our data array). We can use the map function to iterate
@@ -253,7 +251,6 @@ function start() {
             max_profit = (d.totalprofit/d.movie_amount)
         }});
         
-        console.log(max_profit);
         
         var min_profit = 0;
         data.forEach(function(d) { 
@@ -261,7 +258,6 @@ function start() {
             min_profit = (d.totalprofit/d.movie_amount);
         }});
         
-        console.log(min_profit);
         
         var xcalc = [100, -1];
         
@@ -294,7 +290,6 @@ function start() {
         
         function updateColor(value) {
             var col = 0;
-            console.log("WHYYYY");
             if (value >= 0) {
                 col = 255 * (1- (value/ max_profit)) - 40;
                 
@@ -302,7 +297,6 @@ function start() {
             } else {
                 col = 255* (1- (value / min_profit)) - 40;
                 
-                console.log(col);
                 return d3.rgb(255, Math.abs(col), Math.abs(col));
             }
             
