@@ -57,6 +57,7 @@ function start() {
     // That means the labels are on the left, and tick marks on the right.
     var yAxis = d3.svg.axis().scale(yScale).orient('left');
     var xAxis = d3.svg.axis().scale(xScale).orient('bottom');
+<<<<<<< HEAD
 
 
     // Add a button below the graph. Clicking on this button will
@@ -149,6 +150,10 @@ function start() {
     
     // Get Data
         
+=======
+     
+    console.log("hello");
+    
     d3.csv('data.csv', drawPlot);
     
     function drawPlot(rawData) {
@@ -244,7 +249,7 @@ function start() {
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
-        
+
         var max_profit = 0;
         data.forEach(function(d) { 
         if (max_profit < (d.totalprofit/d.movie_amount)) {
@@ -257,8 +262,7 @@ function start() {
         if (min_profit > (d.totalprofit/d.movie_amount)) {
             min_profit = (d.totalprofit/d.movie_amount);
         }});
-        
-        
+
         var xcalc = [100, -1];
         
         function updatex(x) {
@@ -283,7 +287,7 @@ function start() {
             }
             return ycalc[0];
         }
-        
+
         data.sort(function(x, y){
             return d3.descending(x.totalprofit/ x.movie_amount, y.totalprofit/ y.movie_amount);
             });
@@ -301,8 +305,9 @@ function start() {
             }
             
         }
-        
-        
+        var div = d3.select("body").append("div")   
+            .attr("class", "tooltip")               
+            .style("opacity", 0);
         bars.append('g')
             .selectAll('.bar')
             .data(data)
@@ -310,134 +315,58 @@ function start() {
             .append('circle')
             .attr("stroke", "black")
             .attr("fill", function(d) {
-            return updateColor(d.totalprofit/d.movie_amount);
-            })
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
             .attr('class', 'bar')
 //            .attr('x', 30)
             .attr('cx', function() {
                 return updatex(true);
             })
-//            .attr('y', function(d) {
-//                return yScale(d.letter);
-//            })
             .attr('cy', function() {
                 return updatey(false);
             })
             .attr("r", 5)
-//             .attr('width', 15)
-// //            .attr('width', function(d) {
-// //                // xScale will map any number and return a number
-// //                // within the output range we specified earlier.
-// //                return xScale(d.frequency);
-// //            })
-//             .attr('height', 15)
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
             .on("click", function(d,i){
                 console.log(d.name);
                 });
         
-    
         // Create Event Handlers for mouse
       function handleMouseOver(d, i) {  // Add interactivity
 
+        div.transition()        
+        .duration(200)      
+        .style("opacity", .9);      
+        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit)  
+        .style("left", (d3.event.pageX+ 20) + "px")     
+        .style("top", (d3.event.pageY - 70) + "px"); 
+
             // Use D3 to select element, change color and size
-            d3.select(this).attr({
-              fill: "orange",
+            d3.select(this)
+            .attr({
+                fill: function(d) {
+                    return updateColor(d.totalprofit);
+                    },
               r: 10
-            });
-
-            // Specify where to put label of text
-            svg.append("text").attr({
-               id: "test-" + d.name[0] + i,  // Create an id for text so we can select it later for removing on mouseout
-                x: function() { return 30; },
-                y: function() { return 20; }
             })
-            .text(function() {
-                d3.select("#Name").text(d.name)
-                d3.select("#Likes").text(d.total_likes)
-                d3.select("#Movies").text(d.movie_amount)
-                d3.select("#Profit").text(d.totalprofit)
-                //return d.name;  // Value of the text
-
-            });
           }
 
       function handleMouseOut(d, i) {
             // Use D3 to select element, change color back to normal
+            div.transition()        
+                .duration(500)      
+                .style("opacity", 0); 
             d3.select(this).attr({
-              fill: function(d) {
-            return updateColor(d.totalprofit);
-            },
+                fill: function(d) {
+                    return updateColor(d.totalprofit);
+                },
               r: 5
-            });
-            // Select text by id and then remove
-            d3.select("#test-" + d.name[0] + i).remove();  // Remove text location
+            })
+
           }
         
         
-//            .attr('height', function(d) {
-//                // Remember how we set the yScale to be an ordinal scale
-//                // with bands from 0 to height? And then we set the domain 
-//                // to contain all the letters in the alphabet? 
-//                return yScale.rangeBand();
-//            });
-//    });
-
-    // Add a button below the graph. Clicking on this button will
-    // run a filter on the data and use an animation in the process.
-    //
-    // Our HTML will now look like this:
-    // <div id="graph">
-    //  <svg width="700" height="600">...</svg>
-    //  <p>
-    //    <button>Filter Data</button>
-    //  </p>
-    // </div>
-
-//    d3.select(graph)
-//        .select('p')
-//        .append('br');
-//
-//    var sel = d3.select(graph)
-//        .select('p')
-//        .append('select');
-//
-//    sel.append('option')
-//        .text('Red');
-//
-//    sel.append('option')
-//        .text('Purple');
-//
-//    sel.append('option')
-//        .text('Green');
-//
-//    d3.select(graph)
-//            .select('p')
-//            .append('br');
-//
-//    var cutoff = d3.select(graph)
-//        .append('p')
-//        .text("Cutoff: ")
-//        .append('input')
-//        .attr('class', 'cutoff')
-//        .attr('type','text')
-//        .attr('value','0.8');
-
-//    function getSelectedOption(sel) {
-//                            var opt;
-//                            for ( var i = 0, len = sel.options.length; i < len; i++ ) {
-//                                opt = sel.options[i];
-//                                if ( opt.selected === true ) {
-//                                    break;
-//                                }
-//                            }
-//                            return opt;
-//                        };
-//    var val = cutoff.value;
-//
-//    console.log(cutoff.attr("value"));
-//    console.log(document.getElementsByClassName("cutoff").value);
 
 }}
 
