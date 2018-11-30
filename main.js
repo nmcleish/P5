@@ -17,7 +17,7 @@ function start() {
     // as variables so we can use them later.
     // Remember, hardcoding sucks! :)
     var width = 800;
-    var height = 500;
+    var height = 550;
 
     // Here we tell D3 to select the graph that we defined above.
     // Then, we add an <svg></svg> tag inside the graph.
@@ -49,8 +49,8 @@ function start() {
     // Our bar chart is going to encode the letter frequency as bar width.
     // This means that the length of the x axis depends on the length of the bars.
     // The y axis should contain A-Z in the alphabet (ordinal data).
-    var xScale = d3.scale.linear().range([width - 10, 0]);
-    var yScale = d3.scale.ordinal().rangeRoundBands([0, height], 0.3);
+    var xScale = d3.scale.linear().range([width - 100, 0]);
+    var yScale = d3.scale.ordinal().rangeRoundBands([0, height-100], 0.3);
 
 
     // Tell D3 to create a y-axis scale for us, and orient it to the left.
@@ -228,7 +228,7 @@ function start() {
         // position stuff to where we want it to be.
         bars.append('g')
             .attr('class', 'y axis')
-            .attr('transform', 'translate(20, 0)')
+            .attr('transform', 'translate(80, 10)')
             // Call is a special method that lets us invoke a function
             // (called 'yAxis' in this case) which creates the actual
             // yAxis using D3.
@@ -237,7 +237,7 @@ function start() {
         // position stuff to where we want it to be.
         bars.append('g')
             .attr('class', 'x axis')
-            .attr('transform', 'translate(0, 480)')
+            .attr('transform', 'translate(80, 470)')
             // Call is a special method that lets us invoke a function
             // (called 'yAxis' in this case) which creates the actual
             // yAxis using D3.
@@ -246,7 +246,7 @@ function start() {
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
-        var xcalc = [30, -1];
+        var xcalc = [100, -1];
         
         function updatex(x) {
             if (xcalc[1] <= 20) {
@@ -258,14 +258,14 @@ function start() {
             return xcalc[0];
         }
         
-        var ycalc = [10, -1];
+        var ycalc = [5, -1];
         
         function updatey(x) {
             if (ycalc[1] <= 20) {
                 ycalc[0] = ycalc[0] + 20;
                 ycalc[1] = ycalc[1] + 1;
             } else {
-                ycalc[0] = 30;
+                ycalc[0] = 25;
                 ycalc[1] = 0;
             }
             console.log(ycalc);
