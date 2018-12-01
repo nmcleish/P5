@@ -15,7 +15,12 @@ function start() {
         .append('svg')
         .attr('width', width)
         .attr('height', height);
-    
+
+    var svg2 = d3.select(graph2)
+        .append('svg2')
+        .attr('width', 400)
+        .attr('height', height);
+
     var bars = svg.append('g');
     
     var set = [];
@@ -55,12 +60,15 @@ function start() {
                 data[i].total_cast_likes = +data[i].total_cast_likes + +d.cast_total_facebook_likes;
                 data[i].total_movie_likes = +data[i].total_movie_likes + +d.movie_facebook_likes;
                 data[i].avg_imdb_score = +data[i].avg_imdb_score + +d.imdb_score;
-                console.log(data[i].movie_titles)
-                //console.log(d.movie_title)
-                data[i].movie_titles = data[i].movie_titles + "/" + d.movie_title
+                data[i].movie_titles = data[i].movie_titles + "/" + (d.movie_title.substring(0,d.movie_title.length-2) + "~" + d.gross + "~" + d.budget +
+                "~" + (d.gross - (+d.budget)) + "~" + d.genres+ "~" + d.imdb_score)
                 
             } else {
-                data.push( {"name": d.director_name, "totalprofit": +d.gross - +d.budget, "movie_amount": 1, "total_likes": +d.director_facebook_likes, "total_cast_likes": +d.cast_total_facebook_likes, "total_movie_likes": +d.movie_facebook_likes, "avg_imdb_score": +d.imdb_score, "movie_titles":d.movie_title });
+                data.push( {"name": d.director_name, "totalprofit": +d.gross - +d.budget, 
+                "movie_amount": 1, "total_likes": +d.director_facebook_likes, "total_cast_likes": +d.cast_total_facebook_likes, 
+                "total_movie_likes": +d.movie_facebook_likes, "avg_imdb_score": +d.imdb_score, 
+                "movie_titles":(d.movie_title.substring(0,d.movie_title.length-2) + "~" + d.gross + "~" + d.budget + "~" + (d.gross - (+d.budget)) + "~" + d.genres
+                + "~" + d.imdb_score) });
                 directors.push(d.director_name);
             }
             
@@ -68,10 +76,6 @@ function start() {
             
         });
         
-        var set = data;
-        
-        console.log(data)
-
         // We set the domain of the yScale. The scale is ordinal, and
         // contains every letter in the alphabet (the letter attribute
         // in our data array). We can use the map function to iterate
@@ -219,8 +223,95 @@ function start() {
             .attr("r", 5)
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut)
-            .on("click", function(d,i){
-                console.log(d.name);
+            .on("click", function(d){
+                svg2.selectAll("*").remove();
+                svg2.append('text')
+                    .text("Name:")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                svg2.append('text')
+                    .text(d.name)
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                var movies = d.movie_titles.split("/")
+
+                for (movie in movies) {
+                    var movieInfo = movies[movie].split("~")
+                    svg2.append('br')
+                    svg2.append('br')
+
+
+                    svg2.append('text')
+                    .text("Movie Title: ")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                    
+                    svg2.append('text')
+                    .text(movieInfo[0])
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+
+                    svg2.append('br')
+
+                    svg2.append('text')
+                    .text("Gross: ")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                
+                    svg2.append('text')
+                    .text(movieInfo[1])
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+
+                    svg2.append('br')
+
+                    svg2.append('text')
+                    .text("Budget: ")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                
+                    svg2.append('text')
+                    .text(movieInfo[2])
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+
+                    svg2.append('br')
+
+                    svg2.append('text')
+                    .text("Net Income: ")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                
+                    svg2.append('text')
+                    .text(movieInfo[3])
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+
+                    svg2.append('br')
+
+                    svg2.append('text')
+                    .text("Genres: ")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                
+                    svg2.append('text')
+                    .text(movieInfo[4])
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+
+                    svg2.append('br')
+
+                    svg2.append('text')
+                    .text("IMDB Score: ")
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                
+                    svg2.append('text')
+                    .text(movieInfo[5])
+                    .attr("font-size", "14px")
+                    .attr("font-family", "sans-serif");
+                
+                }
                 });
         
         // Create Event Handlers for mouse
