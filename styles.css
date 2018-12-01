@@ -61,9 +61,11 @@
   display: none;
 }
 #wrapper {
-  clear:both;
+  display: inline-block;
+  clear: both;
 }
 #graph {
+  width:855px;
   float: left;
 }
 #graph2 {
@@ -115,7 +117,7 @@ div.tooltip {
   position: absolute;           
   text-align: left;           
   width: 190px;                  
-  height: 50px;                 
+  height: 70px;                 
   padding: 2px;             
   font: 12px sans-serif;        
   background: rgb(255, 255, 255);   
