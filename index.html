@@ -10,8 +10,10 @@
 	<!-- Include any styles we want to add to our page -->
 	<link rel="stylesheet" href="styles.css">
 </head>
+    
 <body>
-	<center><h1>Directors, Popularity, and Profit Margins</h1>
+    <center>
+	<h1>Directors, Popularity, and Profit Margins</h1>
     
     <p> The visialization below shows directors, their profit margin and how differences in popularity displays patterns.</p>
         </center>
@@ -20,11 +22,11 @@
 		<div id="graph">
             
             <div class="tab">
-  <button class="tablinks" onclick="openFilter(event, 'pmargin')">Profit Margin</button>
-  <button class="tablinks" onclick="openFilter(event, 'dlikes')">Director Likes</button>
-  <button class="tablinks" onclick="openFilter(event, 'mlikes')">Movie Likes</button>
-  <button class="tablinks" onclick="openFilter(event, 'clikes')">Cast Likes</button>
-  <button class="tablinks" onclick="openFilter(event, 'mrating')">IMBD Rating</button>
+  <button class="tablinks" id='pmargin' onclick="openFilter(event, 'pmargin')">Profit Margin</button>
+  <button class="tablinks" id='dlikes' onclick="openFilter(event, 'dlikes')">Director Likes</button>
+  <button class="tablinks" id='mlikes' onclick="openFilter(event, 'mlikes')">Movie Likes</button>
+  <button class="tablinks" id='clikes' onclick="openFilter(event, 'clikes')">Cast Likes</button>
+  <button class="tablinks" id='mrating' onclick="openFilter(event, 'mrating')">IMBD Rating</button>
 </div>
             
 		</div>
@@ -32,6 +34,8 @@
 			
 		</div>
 	</div>
+    
 	
 </body>
+        
 </html>

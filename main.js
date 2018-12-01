@@ -151,6 +151,7 @@ function start() {
         var title = svg.append('text')
         .text(" Profit Margin (USD)")
         .attr('x', width/2 - 80)
+        .attr("id", "xlabel")
         .attr('y', 520)
         .attr("font-size", "20px")
         .attr("font-family", "sans-serif");
@@ -169,6 +170,7 @@ function start() {
         }});
 
         var xcalc = [40, -1];
+        var ycalc = [5, -1];
         
         function updatex(x) {
             if (xcalc[1] <= 20) {
@@ -180,7 +182,7 @@ function start() {
             return xcalc[0];
         }
         
-        var ycalc = [5, -1];
+        
         
         function updatey(x) {
             if (ycalc[1] <= 20) {
@@ -325,6 +327,106 @@ function start() {
                 
                 }
                 });
+        
+        d3.select("#pmargin").on("click", function(d){
+            data.sort(function(x, y){
+            return d3.descending(x.totalprofit/ x.movie_amount, y.totalprofit/ y.movie_amount);
+            });
+            
+            d3.select("#xlabel")
+            .transition()
+            .attr('x', 320)
+            .text("Profit Margin (USD)");
+
+            bars.selectAll('.bar')
+            .data(data)
+            .transition()
+            .attr("fill", function(d) {
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
+            
+        });
+        
+        d3.select("#dlikes").on("click", function(d){
+            data.sort(function(x, y){
+            return d3.descending(x.total_likes/ x.movie_amount, y.total_likes/ y.movie_amount);
+            });
+            
+            d3.select("#xlabel")
+            .transition()
+            .attr('x', 320)
+            .text("Director Likes");
+
+            bars.empty();
+            bars.selectAll('.bar')
+            .data(data)
+            .transition()
+            .attr("fill", function(d) {
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
+            
+        });
+        
+        
+        d3.select("#mlikes").on("click", function(d){
+            data.sort(function(x, y){
+            return d3.descending(x.total_movie_likes/ x.movie_amount, y.total_movie_likes/ y.movie_amount);
+            });
+            
+            d3.select("#xlabel")
+            .transition()
+            .attr('x', 320)
+            .text("Movie Likes");
+            
+            bars.empty();
+            bars.selectAll('.bar')
+            .data(data)
+            .transition()
+            .attr("fill", function(d) {
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
+            
+        });
+        
+        d3.select("#clikes").on("click", function(d){
+            data.sort(function(x, y){
+            return d3.descending(x.total_cast_likes/ x.movie_amount, y.total_cast_likes/ y.movie_amount);
+            });
+            
+            d3.select("#xlabel")
+            .transition()
+            .attr('x', 320)
+            .text("Click Likes");
+            
+            bars.selectAll('.bar')
+            .data(data)
+            .transition()
+            .attr("fill", function(d) {
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
+            
+        });
+        
+        d3.select("#mrating").on("click", function(d){
+            data.sort(function(x, y){
+            return d3.descending(x.avg_imdb_score/ x.movie_amount, y.avg_imdb_score/ y.movie_amount);
+            });
+            
+            d3.select("#xlabel")
+            .transition()
+            .attr('x', 320)
+            .text("Movie Rating");
+            
+
+            bars.selectAll('.bar')
+            .data(data)
+            .transition()
+            .attr("fill", function(d) {
+                return updateColor(d.totalprofit/d.movie_amount);
+                })
+            
+        });
+        
         
         // Create Event Handlers for mouse
       function handleMouseOver(d, i) {  // Add interactivity

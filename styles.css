@@ -9,8 +9,8 @@
     float: left;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    width: 12%;
-    height: 450px;
+    width: 15%;
+    height: 230px;
     margin: 0px 0px 50px 0px;
 }
 
@@ -63,13 +63,16 @@
 #wrapper {
   display: inline-block;
   clear: both;
+    padding-left: 100px;
 }
 #graph {
-  width:855px;
+  width:900px;
   float: left;
+    
 }
 #graph2 {
   float: left;
+  padding-top: 20px;
 }
 #filter {
   float: top;
