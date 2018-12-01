@@ -1,5 +1,5 @@
 .bar:hover {
-  fill: brown;
+  fill: rgb(250, 225, 0);
 }
 
 * {box-sizing: border-box}

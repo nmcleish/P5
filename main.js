@@ -239,8 +239,8 @@ function start() {
             .on("mouseout", handleMouseOut)
             .on("click", function(d){
                 svg2.selectAll("*").remove();
-                svg2.append('text')
-                    .text("Name:")
+                svg2.append('strong')
+                    .text("Director:  ")
                     .attr("font-size", "14px")
                     .attr("font-family", "sans-serif");
                 svg2.append('text')
@@ -255,9 +255,10 @@ function start() {
                     svg2.append('br')
 
 
-                    svg2.append('text')
-                    .text("Movie Title: ")
+                    svg2.append('strong')
+                    .text("Movie Title:  ")
                     .attr("font-size", "14px")
+                    .attr("font-weight","bold")
                     .attr("font-family", "sans-serif");
                     
                     svg2.append('text')
@@ -267,8 +268,8 @@ function start() {
 
                     svg2.append('br')
 
-                    svg2.append('text')
-                    .text("Gross: ")
+                    svg2.append('strong')
+                    .text("Gross:  ")
                     .attr("font-size", "14px")
                     .attr("font-family", "sans-serif");
                 
@@ -279,8 +280,8 @@ function start() {
 
                     svg2.append('br')
 
-                    svg2.append('text')
-                    .text("Budget: ")
+                    svg2.append('strong')
+                    .text("Budget:  ")
                     .attr("font-size", "14px")
                     .attr("font-family", "sans-serif");
                 
@@ -291,8 +292,8 @@ function start() {
 
                     svg2.append('br')
 
-                    svg2.append('text')
-                    .text("Net Income: ")
+                    svg2.append('strong')
+                    .text("Net Income:  ")
                     .attr("font-size", "14px")
                     .attr("font-family", "sans-serif");
                 
@@ -303,8 +304,8 @@ function start() {
 
                     svg2.append('br')
 
-                    svg2.append('text')
-                    .text("Genres: ")
+                    svg2.append('strong')
+                    .text("Genres:  ")
                     .attr("font-size", "14px")
                     .attr("font-family", "sans-serif");
                 
@@ -315,7 +316,7 @@ function start() {
 
                     svg2.append('br')
 
-                    svg2.append('text')
+                    svg2.append('strong')
                     .text("IMDB Score: ")
                     .attr("font-size", "14px")
                     .attr("font-family", "sans-serif");
