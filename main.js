@@ -18,7 +18,7 @@ function start() {
 
     var svg2 = d3.select(graph2)
         .append('svg2')
-        .attr('width', 400)
+        .attr('width', 20)
         .attr('height', height);
 
     var bars = svg.append('g');
