@@ -1,13 +1,5 @@
-// Your browser will call the onload() function when the document
-// has finished loading. In this case, onload() points to the
-// start() method we defined below. Because of something called
-// function hoisting, the start() method is callable on line 6
-// even though it is defined on line 8.
 window.onload = start;
 
-// This is where all of our javascript code resides. This method
-// is called by "window" when the document (everything you see on
-// the screen) has finished loading.
 function start() {
     // Select the graph from the HTML page and save
     // a reference to it for later.
@@ -19,33 +11,11 @@ function start() {
     var width = 750;
     var height = 550;
 
-    // Here we tell D3 to select the graph that we defined above.
-    // Then, we add an <svg></svg> tag inside the graph.
-    // On the <svg> element, we set the width and height.
-    // Then, we save the reference to this element in the "svg" variable,
-    // so we can use it later.
-    // 
-    // So our code now looks like this in the browser:
-    // <svg width="700" height="600">
-    // </svg>
-    
-    
     var svg = d3.select(graph)
         .append('svg')
         .attr('width', width)
         .attr('height', height);
     
-    // Remember, "svg" now references to <svg width="700" height="600"></svg>
-    // So now we append a group <g></g> tag to our svg element, and return a
-    // reference to that and save it in the "bars" variable.
-    // 
-    // Now bars looks like this:
-    // <g></g>
-    // 
-    // And the svg element in our browser looks like this:
-    // <svg width="700" height="600">
-    //  <g></g>
-    // </svg>
     var bars = svg.append('g');
 
     // Our bar chart is going to encode the letter frequency as bar width.
@@ -83,9 +53,12 @@ function start() {
                 data[i].total_cast_likes = +data[i].total_cast_likes + +d.cast_total_facebook_likes;
                 data[i].total_movie_likes = +data[i].total_movie_likes + +d.movie_facebook_likes;
                 data[i].avg_imdb_score = +data[i].avg_imdb_score + +d.imdb_score;
+                console.log(data[i].movie_titles)
+                //console.log(d.movie_title)
+                data[i].movie_titles = data[i].movie_titles + "/" + d.movie_title
                 
             } else {
-                data.push( {"name": d.director_name, "totalprofit": +d.gross - +d.budget, "movie_amount": 1, "total_likes": +d.director_facebook_likes, "total_cast_likes": +d.cast_total_facebook_likes, "total_movie_likes": +d.movie_facebook_likes, "avg_imdb_score": +d.imdb_score });
+                data.push( {"name": d.director_name, "totalprofit": +d.gross - +d.budget, "movie_amount": 1, "total_likes": +d.director_facebook_likes, "total_cast_likes": +d.cast_total_facebook_likes, "total_movie_likes": +d.movie_facebook_likes, "avg_imdb_score": +d.imdb_score, "movie_titles":d.movie_title });
                 directors.push(d.director_name);
             }
             
@@ -93,39 +66,7 @@ function start() {
             
         });
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-   // var profit = d3.sum(data, d=> d.gross);
-    
-    
-    
-//    d3.csv('data.csv', function(d) {
-//        d.frequency = +d.frequency;
-//        return d;
-//    }, function(error, data) {
-        // We now have the "massaged" CSV data in the 'data' variable.
-        
-        // We set the domain of the xScale. The domain includes 0 up to
-        // the maximum frequency in the dataset. This is because 
-//        var cus = [{"val": "High"}, {"val": "Mid"}, {"val": "Low"}]
-//        xScale.domain(cus.map(function(d) {
-//            return d.val;
-//        }));
-        
-//        xScale.domain([0, d3.max(data, function(d) {
-//            return d.total_likes;
-//        })]);
-
+        console.log(data)
 
         // We set the domain of the yScale. The scale is ordinal, and
         // contains every letter in the alphabet (the letter attribute
@@ -149,15 +90,6 @@ function start() {
 //            // (called 'yAxis' in this case) which creates the actual
 //            // yAxis using D3.
 //            .call(yAxis);
-        
-        // position stuff to where we want it to be.
-//        bars.append('g')
-//            .attr('class', 'x axis')
-//            .attr('transform', 'translate(80, 470)')
-//            // Call is a special method that lets us invoke a function
-//            // (called 'yAxis' in this case) which creates the actual
-//            // yAxis using D3.
-//            .call(xAxis);
         
         svg.append('line')
         .attr('x1', 30)
@@ -203,11 +135,6 @@ function start() {
         .attr("font-size", "20px")
         .attr("font-family", "sans-serif");
         
-        
-        // Create the bars in the graph. First, select all '.bars' that
-        // currently exist, then load the data into them. enter() selects
-        // all the pieces of data and lets us operate on them.
-
         var max_profit = 0;
         data.forEach(function(d) { 
         if (max_profit < (d.totalprofit/d.movie_amount)) {
