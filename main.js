@@ -39,6 +39,18 @@ function start() {
     
     console.log("hello");
     
+//    var defs = svg.append("defs");
+//
+//    //Append a linearGradient element to the defs and give it a unique id
+//    var linearGradient = defs.append("linearGradient")
+//    .attr("id", "linear-gradient
+//          
+//    linearGradient
+//    .attr("x1", 20)
+//    .attr("y1", 30)
+//    .attr("x2", 40)
+//    .attr("y2", 50);
+    
     d3.csv('data.csv', drawPlot);
     
     function drawPlot(rawData) {
@@ -137,8 +149,8 @@ function start() {
         .attr("font-family", "sans-serif");
 
         var title = svg.append('text')
-        .text(" Profit Margin")
-        .attr('x', width/2 - 60)
+        .text(" Profit Margin (USD)")
+        .attr('x', width/2 - 80)
         .attr('y', 520)
         .attr("font-size", "20px")
         .attr("font-family", "sans-serif");
@@ -334,6 +346,9 @@ function start() {
               r: 10
             })
           }
+        
+        
+
 
       function handleMouseOut(d, i) {
             // Use D3 to select element, change color back to normal
@@ -350,13 +365,14 @@ function start() {
           }
         
         
-        
 
 }}
 
-function openFilter(event, filter) {
-            console.log(set);
         
+function openFilter(event, filter) {
+            console.log("filter");
+    
+    }
 //        set.sort(function(x, y){
 //            return d3.descending(x.total_movie_likes/ x.movie_amount, y.total_movie_likes/ y.movie_amount);
 //            });
@@ -383,7 +399,7 @@ function openFilter(event, filter) {
 //            .on("click", function(d,i){
 //                console.log(d.name);
 //                });
-        }
+        
 
 
     
