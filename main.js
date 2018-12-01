@@ -22,6 +22,8 @@ function start() {
         .attr('height', height);
 
     var bars = svg.append('g');
+    
+    var set = [];
 
     // Our bar chart is going to encode the letter frequency as bar width.
     // This means that the length of the x axis depends on the length of the bars.
@@ -136,7 +138,7 @@ function start() {
 
         var title = svg.append('text')
         .text(" Profit Margin")
-        .attr('x', width/2 - 90)
+        .attr('x', width/2 - 60)
         .attr('y', 520)
         .attr("font-size", "20px")
         .attr("font-family", "sans-serif");
@@ -199,6 +201,8 @@ function start() {
         var div = d3.select("body").append("div")   
             .attr("class", "tooltip")               
             .style("opacity", 0);
+        
+        
         bars.append('g')
             .selectAll('.bar')
             .data(data)
@@ -345,9 +349,43 @@ function start() {
           }
         
         
+        
 
 }}
 
+function openFilter(event, filter) {
+            console.log(set);
+        
+//        set.sort(function(x, y){
+//            return d3.descending(x.total_movie_likes/ x.movie_amount, y.total_movie_likes/ y.movie_amount);
+//            });
+//        
+//        d3.selectAll('.bar')
+//            .data(set)
+//            .enter()
+//            .append('circle')
+//            .attr("stroke", "black")
+//            .attr("fill", function(d) {
+//                return updateColor(d.totalprofit/d.movie_amount);
+//                })
+//            .attr('class', 'bar')
+////            .attr('x', 30)
+//            .attr('cx', function() {
+//                return updatex(true);
+//            })
+//            .attr('cy', function() {
+//                return updatey(false);
+//            })
+//            .attr("r", 5)
+//            .on("mouseover", handleMouseOver)
+//            .on("mouseout", handleMouseOut)
+//            .on("click", function(d,i){
+//                console.log(d.name);
+//                });
+        }
+
+
+    
 //tab code
 function changeLikes(evt, likeType) {
     // Declare all variables

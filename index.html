@@ -17,11 +17,11 @@
 		<div id="graph">
             
             <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'London')">Profit Margin</button>
-  <button class="tablinks" onclick="openCity(event, 'Paris')">Director Likes</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Movie Likes</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Cast Likes</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">IMBD</button>
+  <button class="tablinks" onclick="openFilter(event, 'pmargin')">Profit Margin</button>
+  <button class="tablinks" onclick="openFilter(event, 'dlikes')">Director Likes</button>
+  <button class="tablinks" onclick="openFilter(event, 'mlikes')">Movie Likes</button>
+  <button class="tablinks" onclick="openFilter(event, 'clikes')">Cast Likes</button>
+  <button class="tablinks" onclick="openFilter(event, 'mrating')">IMBD Rating</button>
 </div>
             
 		</div>
@@ -29,11 +29,6 @@
 			
 		</div>
 	</div>
-	<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> 
-	Popularity type:
-	<select style="width: 280px" id="Filter" name="Popularity">
-		<option selected="">Movie Likes</option>
-		<option value = "Horror">Cast Likes</option>
-	</select>
+	
 </body>
 </html>
