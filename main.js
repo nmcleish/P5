@@ -55,7 +55,7 @@ function start() {
                 data[i].avg_imdb_score = +data[i].avg_imdb_score + +d.imdb_score;
                 console.log(data[i].movie_titles)
                 //console.log(d.movie_title)
-                data[i].movie_title = data[i].movie_title + "/" + d.movie_title
+                data[i].movie_titles = data[i].movie_titles + "/" + d.movie_title
                 
             } else {
                 data.push( {"name": d.director_name, "totalprofit": +d.gross - +d.budget, "movie_amount": 1, "total_likes": +d.director_facebook_likes, "total_cast_likes": +d.cast_total_facebook_likes, "total_movie_likes": +d.movie_facebook_likes, "avg_imdb_score": +d.imdb_score, "movie_titles":d.movie_title });
@@ -67,11 +67,6 @@ function start() {
         });
         
         console.log(data)
-
-        xScale.domain([0, d3.max(data, function(d) {
-            return d.total_likes;
-        })]);
-
 
         // We set the domain of the yScale. The scale is ordinal, and
         // contains every letter in the alphabet (the letter attribute
@@ -96,15 +91,41 @@ function start() {
             // yAxis using D3.
             .call(yAxis);
         
-        // position stuff to where we want it to be.
-        bars.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(80, 470)')
-            // Call is a special method that lets us invoke a function
-            // (called 'yAxis' in this case) which creates the actual
-            // yAxis using D3.
-            .call(xAxis);
-
+        svg.append('line')
+            .attr('x1', 90)
+            .attr('x2', 750)
+            .attr('y1', 470)
+            .attr('y2', 470)
+            .attr('stroke', 'black')
+            .attr('stroke-width', '.6');
+            
+        svg.append('text')
+            .text("High")
+            .attr('x', 100)
+            .attr('y', 488)
+            .attr("font-size", "14px")
+            .attr("font-family", "sans-serif");
+            
+        svg.append('text')
+            .text("Mid")
+            .attr('x', 420)
+            .attr("font-size", "14px")
+            .attr('y', 488)
+            .attr("font-family", "sans-serif");
+            
+        svg.append('text')
+            .text("Low")
+            .attr('x', 715)
+            .attr('y', 488)
+            .attr("font-size", "14px")
+            .attr("font-family", "sans-serif");
+            
+        var title = svg.append('text')
+            .text(" Profit Margin")
+            .attr('x', 385)
+            .attr('y', 520)
+            .attr("font-size", "20px")
+            .attr("font-family", "sans-serif");
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
@@ -197,7 +218,7 @@ function start() {
         div.transition()        
         .duration(200)      
         .style("opacity", .9);      
-        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit)  
+        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit/ d.movie_amount)  
         .style("left", (d3.event.pageX+ 20) + "px")     
         .style("top", (d3.event.pageY - 70) + "px"); 
 
@@ -218,7 +239,7 @@ function start() {
                 .style("opacity", 0); 
             d3.select(this).attr({
                 fill: function(d) {
-                    return updateColor(d.totalprofit);
+                    return updateColor(d.totalprofit/d.movie_amount);
                 },
               r: 5
             })
