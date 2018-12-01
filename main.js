@@ -16,7 +16,7 @@ function start() {
     // Specify the width and height of our graph
     // as variables so we can use them later.
     // Remember, hardcoding sucks! :)
-    var width = 800;
+    var width = 750;
     var height = 550;
 
     // Here we tell D3 to select the graph that we defined above.
@@ -28,11 +28,13 @@ function start() {
     // So our code now looks like this in the browser:
     // <svg width="700" height="600">
     // </svg>
+    
+    
     var svg = d3.select(graph)
         .append('svg')
         .attr('width', width)
         .attr('height', height);
-
+    
     // Remember, "svg" now references to <svg width="700" height="600"></svg>
     // So now we append a group <g></g> tag to our svg element, and return a
     // reference to that and save it in the "bars" variable.
@@ -49,7 +51,7 @@ function start() {
     // Our bar chart is going to encode the letter frequency as bar width.
     // This means that the length of the x axis depends on the length of the bars.
     // The y axis should contain A-Z in the alphabet (ordinal data).
-    var xScale = d3.scale.linear().range([width - 100, 0]);
+    var xScale = d3.scale.linear().range([width - 50, 0]);
     var yScale = d3.scale.ordinal().rangeRoundBands([0, height-100], 0.3);
 
 
@@ -140,13 +142,13 @@ function start() {
         // Append the y-axis to the graph. the translate(20, 0) stuff
         // shifts the axis 20 pixels from the left. This just helps us
         // position stuff to where we want it to be.
-        bars.append('g')
-            .attr('class', 'y axis')
-            .attr('transform', 'translate(80, 10)')
-            // Call is a special method that lets us invoke a function
-            // (called 'yAxis' in this case) which creates the actual
-            // yAxis using D3.
-            .call(yAxis);
+//        bars.append('g')
+//            .attr('class', 'y axis')
+//            .attr('transform', 'translate(80, 10)')
+//            // Call is a special method that lets us invoke a function
+//            // (called 'yAxis' in this case) which creates the actual
+//            // yAxis using D3.
+//            .call(yAxis);
         
         // position stuff to where we want it to be.
 //        bars.append('g')
@@ -158,40 +160,49 @@ function start() {
 //            .call(xAxis);
         
         svg.append('line')
-        .attr('x1', 90)
-        .attr('x2', 750)
+        .attr('x1', 30)
+        .attr('x2', 710)
         .attr('y1', 470)
         .attr('y2', 470)
         .attr('stroke', 'black')
         .attr('stroke-width', '.6');
         
+        svg.append('line')
+        .attr('x1', 20)
+        .attr('x2', 20)
+        .attr('y1', 460)
+        .attr('y2', 10)
+        .attr('stroke', 'black')
+        .attr('stroke-width', '.6');
+        
         svg.append('text')
         .text("High")
-        .attr('x', 100)
+        .attr('x', 40)
         .attr('y', 488)
         .attr("font-size", "14px")
         .attr("font-family", "sans-serif");
         
         svg.append('text')
         .text("Mid")
-        .attr('x', 420)
+        .attr('x', 360)
         .attr("font-size", "14px")
         .attr('y', 488)
         .attr("font-family", "sans-serif");
         
         svg.append('text')
         .text("Low")
-        .attr('x', 715)
+        .attr('x', 670)
         .attr('y', 488)
         .attr("font-size", "14px")
         .attr("font-family", "sans-serif");
 
         var title = svg.append('text')
         .text(" Profit Margin")
-        .attr('x', 385)
+        .attr('x', width/2 - 90)
         .attr('y', 520)
         .attr("font-size", "20px")
         .attr("font-family", "sans-serif");
+        
         
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
@@ -210,7 +221,7 @@ function start() {
             min_profit = (d.totalprofit/d.movie_amount);
         }});
 
-        var xcalc = [100, -1];
+        var xcalc = [40, -1];
         
         function updatex(x) {
             if (xcalc[1] <= 20) {
