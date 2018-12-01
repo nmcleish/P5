@@ -115,9 +115,14 @@ function start() {
         
         // We set the domain of the xScale. The domain includes 0 up to
         // the maximum frequency in the dataset. This is because 
-        xScale.domain([0, d3.max(data, function(d) {
-            return d.total_likes;
-        })]);
+//        var cus = [{"val": "High"}, {"val": "Mid"}, {"val": "Low"}]
+//        xScale.domain(cus.map(function(d) {
+//            return d.val;
+//        }));
+        
+//        xScale.domain([0, d3.max(data, function(d) {
+//            return d.total_likes;
+//        })]);
 
 
         // We set the domain of the yScale. The scale is ordinal, and
@@ -144,14 +149,50 @@ function start() {
             .call(yAxis);
         
         // position stuff to where we want it to be.
-        bars.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(80, 470)')
-            // Call is a special method that lets us invoke a function
-            // (called 'yAxis' in this case) which creates the actual
-            // yAxis using D3.
-            .call(xAxis);
+//        bars.append('g')
+//            .attr('class', 'x axis')
+//            .attr('transform', 'translate(80, 470)')
+//            // Call is a special method that lets us invoke a function
+//            // (called 'yAxis' in this case) which creates the actual
+//            // yAxis using D3.
+//            .call(xAxis);
+        
+        svg.append('line')
+        .attr('x1', 90)
+        .attr('x2', 750)
+        .attr('y1', 470)
+        .attr('y2', 470)
+        .attr('stroke', 'black')
+        .attr('stroke-width', '.6');
+        
+        svg.append('text')
+        .text("High")
+        .attr('x', 100)
+        .attr('y', 488)
+        .attr("font-size", "14px")
+        .attr("font-family", "sans-serif");
+        
+        svg.append('text')
+        .text("Mid")
+        .attr('x', 420)
+        .attr("font-size", "14px")
+        .attr('y', 488)
+        .attr("font-family", "sans-serif");
+        
+        svg.append('text')
+        .text("Low")
+        .attr('x', 715)
+        .attr('y', 488)
+        .attr("font-size", "14px")
+        .attr("font-family", "sans-serif");
 
+        var title = svg.append('text')
+        .text(" Profit Margin")
+        .attr('x', 385)
+        .attr('y', 520)
+        .attr("font-size", "20px")
+        .attr("font-family", "sans-serif");
+        
         // Create the bars in the graph. First, select all '.bars' that
         // currently exist, then load the data into them. enter() selects
         // all the pieces of data and lets us operate on them.
@@ -244,7 +285,7 @@ function start() {
         div.transition()        
         .duration(200)      
         .style("opacity", .9);      
-        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit)  
+        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit/ d.movie_amount)  
         .style("left", (d3.event.pageX+ 20) + "px")     
         .style("top", (d3.event.pageY - 70) + "px"); 
 
@@ -265,7 +306,7 @@ function start() {
                 .style("opacity", 0); 
             d3.select(this).attr({
                 fill: function(d) {
-                    return updateColor(d.totalprofit);
+                    return updateColor(d.totalprofit/d.movie_amount);
                 },
               r: 5
             })
