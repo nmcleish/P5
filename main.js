@@ -435,7 +435,7 @@ function start() {
         div.transition()        
         .duration(200)      
         .style("opacity", .9);      
-        div .html("Director: "+ d.name + "</br>" + "Likes: "+ d.total_likes + "</br>" + "Movies: "+ d.movie_amount + "</br>" + "Avg Profit: "+ d.totalprofit/ d.movie_amount)  
+        div .html("Director: "+ d.name  + "</br>"+ "Avg Likes: "+ Math.ceil(d.total_likes/d.movie_amount) + "</br>" + "Avg Cast Likes: "+ Math.ceil(d.total_cast_likes/d.movie_amount)  + "</br>"+ "Avg Movie Likes: "+ Math.ceil(d.total_movie_likes/d.movie_amount) + "</br>"+ "Movies: "+ d.movie_amount + "</br>" + "Avg IMBD Rating: "+ Math.ceil(d.avg_imdb_score/d.movie_amount) + "</br>"+  "Avg Profit: "+ Math.ceil(d.totalprofit/ d.movie_amount))
         .style("left", (d3.event.pageX+ 20) + "px")     
         .style("top", (d3.event.pageY - 70) + "px"); 
 
@@ -475,34 +475,6 @@ function openFilter(event, filter) {
             console.log("filter");
     
     }
-//        set.sort(function(x, y){
-//            return d3.descending(x.total_movie_likes/ x.movie_amount, y.total_movie_likes/ y.movie_amount);
-//            });
-//        
-//        d3.selectAll('.bar')
-//            .data(set)
-//            .enter()
-//            .append('circle')
-//            .attr("stroke", "black")
-//            .attr("fill", function(d) {
-//                return updateColor(d.totalprofit/d.movie_amount);
-//                })
-//            .attr('class', 'bar')
-////            .attr('x', 30)
-//            .attr('cx', function() {
-//                return updatex(true);
-//            })
-//            .attr('cy', function() {
-//                return updatey(false);
-//            })
-//            .attr("r", 5)
-//            .on("mouseover", handleMouseOver)
-//            .on("mouseout", handleMouseOut)
-//            .on("click", function(d,i){
-//                console.log(d.name);
-//                });
-        
-
 
     
 //tab code
